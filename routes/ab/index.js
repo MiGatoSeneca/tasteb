@@ -7,10 +7,11 @@ var test_a_count = 0;
 var test_b_count = 0;
 
 /* GET home page. */
-router.get('/:username/:filename', function(req, res, next) {
+router.get('/:username/img/:filename', function(req, res, next) {
   var username = req.params.username;
   var filename = req.params.filename;
-  var img_path = 'tests/'+username+'/'+filename;
+  var img_path = 'tests/'+username+'/img/'+filename;
+  console.log(username+'/img/'+filename);
 
   var cookie = req.cookies["cf_testab_img_"+username+"_"+filename];
   if (cookie === undefined){
@@ -27,11 +28,8 @@ router.get('/:username/:filename', function(req, res, next) {
       }
     }
     res.cookie("cf_testab_img_"+username+"_"+filename,cookie, { maxAge: 900000, httpOnly: true });
-    console.log("Need some cookies: "+cookie);
-  }else{
-    console.log("I have a cookie: "+cookie);
   }
-  img_path+='_'+cookie;
+  img_path+='/'+cookie;
   res.sendFile(path.resolve(img_path));
 });
 
